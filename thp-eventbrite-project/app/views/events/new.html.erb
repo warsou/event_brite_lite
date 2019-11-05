@@ -1,0 +1,86 @@
+<% content_for :title, 'New event' %>
+
+<div class="alert alert-dark text-center" role="alert">
+  Ceci est la page pour créer un nouvel évènement !
+</div>
+
+<div class="container px-2 mx-5">
+  <h1>Quel évènement souhaites-tu publier ?</h1>
+
+  <hr/>
+
+  <%= form_with(model: @event, local: true) do |form| %>
+    <% if @event.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@event.errors.count, "error") %> prohibited this user from being saved:</h2>
+
+        <ul>
+        <% @event.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+        </ul>
+      </div>
+    <% end %>
+    
+    <div class="form-group">
+
+      <div class="field">
+        <%= form.label :title %><br />
+        <%= form.text_field :title %>
+      </div>
+
+      <hr/>
+
+      <div class="field">
+        <%= form.label :start_date %><br />
+        <%= form.datetime_select :start_date, { 
+          ampm: false, order: [:day, :month, :year], 
+          prompt: true, start_year: Time.now.year, } %>
+      </div>
+
+      <hr/>
+
+      <div class="field">
+        <%= form.label :duration %><br />
+        <%= form.number_field :duration %>
+      </div>
+
+      <hr/>
+
+      <div class="field">
+        <%= form.label :description %><br />
+        <%= form.text_area :description, rows: 5, class: 'w-50'  %>
+      </div>
+
+      <hr/>
+
+      <div class="field">
+        <%= form.label :price %><br />
+        <%= form.number_field :price %>
+      </div>
+
+      <hr/>
+
+      <div class="field">
+        <%= form.label :location %><br />
+        <%= form.text_field :location %>
+      </div>
+
+      <%= form.hidden_field :host_id, value: @host.id %>
+
+      <hr/>
+
+      <div class="actions"><br />
+        <%= form.submit "Create event", class: 'btn btn-lg btn-success' %>
+      </div>
+
+    </div> <!-- /form-group -->
+  <% end %>
+
+
+
+</div> <!-- /container-fluid -->
+
+<hr/>
+
+<%= link_to 'Back to homepage', events_path, class: 'btn btn-lg btn-info mx-5 px-5' %>

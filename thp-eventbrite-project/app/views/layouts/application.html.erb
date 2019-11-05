@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+  <head>
+  <meta charset="utf-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+    <!--Title changes depending on the view -->
+    <title><%= yield(:title) %></title>
+
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+  
+  <body class='bg-light'>
+
+  <header>
+    <!-- Bootstrap navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <a class="navbar-brand" href="#">
+    <img src="/alien.png" width="30" height="30" alt=""/>
+  </a>
+      <%= link_to 'EventbriteLikeProject', events_path, :class => 'navbar-brand' %>
+
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <%= link_to 'Add an event', new_event_path, :class => 'nav-link' %>
+          </li>
+        </ul>
+
+        <!-- Dropdowns depending on session status -->
+        <ul class="navbar-nav ml-auto">
+          <!-- if connected, profile and logout options -->
+          <% if current_user %>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <%= current_user.first_name.capitalize %>
+              </a>
+              <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                <%= link_to 'My profile', user_path(current_user.id), :class => "dropdown-item text-light" %>
+                <%= link_to 'Log  out', destroy_user_session_path,method: :delete, :class => "dropdown-item text-light" %>
+              </div>
+            </li>
+
+          <!-- if not connected, login and signup options -->
+          <% else%>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Log in / Sign up
+              </a>
+              <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+                <%= link_to 'Log in', new_user_session_path, :class => "dropdown-item text-light" %>
+                <%= link_to 'Sign up', new_user_registration_path, :class => "dropdown-item text-light" %>
+              </div>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Displaying alerts and notices -->
+  <% if notice || alert %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+  <% end %>
+  
+  <!-- Getting content from the other views -->
+  <main role='main'>
+    <%= yield %>
+  </main>
+  
+  </body>
+</html>
